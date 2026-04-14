@@ -234,16 +234,6 @@ function setStatusMessage(element, message, isError = false) {
     } else {
         element.classList.add('success-msg');
     }
-    statusTimeout = setTimeout(() => {
-        if (element) {
-            element.classList.remove('error-msg', 'success-msg');
-            if (element.id === 'fileStatus') {
-                element.innerHTML = '📄 Выберите .md файл или используйте ссылку';
-            } else if (element.id === 'urlStatus') {
-                element.innerHTML = '🔗 Вставьте raw-ссылку (GitHub raw)';
-            }
-        }
-    }, 4000);
 }
 
 // ---------- Загрузка по URL ----------
@@ -258,7 +248,9 @@ async function loadMarkdownFromUrl(url, showStatus = true) {
         if (urlInput) urlInput.value = finalUrl;
     }
     fileInput.value = '';
-    
+    fileStatusSpan.innerHTML = '📄 Выберите .md файл';
+    fileStatusSpan.classList.remove('error-msg', 'success-msg');
+
     if (showStatus) setStatusMessage(urlStatusSpan, '⏳ Загрузка...', false);
     previewDiv.innerHTML = `<div style="display:flex; justify-content:center; align-items:center; gap:12px; padding: 2rem;">
             <div class="loading-spinner"></div> <span style="color:#c9d1d9;">Загрузка Markdown...</span>
@@ -325,9 +317,7 @@ async function loadExample() {
 exampleBtn.addEventListener('click', loadExample);
 
 clearPreviewBtn.addEventListener('click', () => {
-    previewDiv.innerHTML = `<div style="color: #8b949e; text-align: center; padding: 2rem 1rem;">
-            🧹 Просмотр очищен. Выберите файл или загрузите Markdown по ссылке.
-        </div>`;
+    handleAutoLoadFromUrlParam();
 
     // Очищаем поле ввода URL
     urlInput.value = '';
@@ -336,8 +326,11 @@ clearPreviewBtn.addEventListener('click', () => {
     fileInput.value = '';
 
     // Обновляем статусные сообщения
-    setStatusMessage(fileStatusSpan, 'Просмотр сброшен, выберите файл', false);
-    setStatusMessage(urlStatusSpan, 'Очистка выполнена', false);
+    fileStatusSpan.innerHTML = '📄 Выберите .md файл';
+    fileStatusSpan.classList.remove('error-msg', 'success-msg');
+
+    urlStatusSpan.innerHTML = '🔗 Вставьте raw-ссылку (GitHub raw)';
+    urlStatusSpan.classList.remove('error-msg', 'success-msg');
 
     // Убираем хэш из URL, если он был
     if (window.location.hash) {
@@ -360,6 +353,9 @@ fileInput.addEventListener('change', (event) => {
         return;
     }
     urlInput.value = '';
+    urlStatusSpan.innerHTML = '🔗 Вставьте raw-ссылку (GitHub raw)';
+    urlStatusSpan.classList.remove('error-msg', 'success-msg');
+
     setStatusMessage(fileStatusSpan, `⏳ Чтение "${file.name}"...`, false);
 
     const reader = new FileReader();
@@ -436,7 +432,7 @@ previewDiv.addEventListener('click', handleAnchorClick);
 window.addEventListener('DOMContentLoaded', async () => {
     await handleAutoLoadFromUrlParam();
     if (!getQueryParam('url')) {
-        fileStatusSpan.innerHTML = '📄 Выберите .md файл или используйте ссылку';
+        fileStatusSpan.innerHTML = '📄 Выберите .md файл';
         urlStatusSpan.innerHTML = '🔗 Вставьте raw-ссылку (GitHub raw)';
     }
 });
