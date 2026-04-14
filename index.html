@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>Markdown Viewer · GitHub Dark + LaTeX формулы</title>
+    <!-- GitHub Markdown CSS (тёмная версия) -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown-dark.min.css">
+    <!-- Highlight.js для тёмной темы -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.11/purify.min.js"></script>
+    <!-- KaTeX JS и авто-рендер -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"
+        onload="renderMathInElementIfReady()"></script>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>📄 Markdown Viewer · GitHub Dark + LaTeX</h1>
+            <p>Загрузите .md файл или RAW ссылку.</p>
+        </div>
+
+        <div class="input-panels">
+            <div class="panel">
+                <div class="panel-title">
+                    📂 <span>Выберите Markdown файл</span>
+                </div>
+                <div class="file-input-area">
+                    <input type="file" id="fileInput" accept=".md,.markdown,.txt,.mkd,.mdown">
+                </div>
+                <div class="status-msg" id="fileStatus">
+                    🔹 Поддерживаются .md, .markdown, .txt
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">
+                    🔗 <span>Ссылка на RAW Markdown</span>
+                </div>
+                <div class="url-input-group">
+                    <input type="text" id="urlInput" placeholder="https://raw.githubusercontent.com/..." value="">
+                    <button id="loadUrlBtn">📥 Загрузить</button>
+                </div>
+                <div class="action-buttons">
+                    <button id="exampleBtn" class="secondary">✨ Пример с GitHub</button>
+                    <button id="clearPreviewBtn" class="secondary">🗑️ Очистить</button>
+                </div>
+                <div class="status-msg" id="urlStatus">
+                    💡 GitHub raw ссылки работают отлично
+                </div>
+            </div>
+        </div>
+
+        <div class="preview-container">
+            <div class="preview-header">
+                <h3>📖 Предпросмотр (GitHub Dark + LaTeX)</h3>
+            </div>
+            <div id="previewContent" class="markdown-body">
+                <div style="color: #8b949e; text-align: center; padding: 2rem 1rem;">
+                    ⏳ Загрузите файл или используйте ссылку<br>👇 Автозагрузка из параметра <code>?url=...</code>
+                </div>
+            </div>
+        </div>
+        <footer>
+            ⚡ Вся обработка локально
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
